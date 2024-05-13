@@ -1,29 +1,16 @@
-#include <iostream>
-#include <string>
+#include "Livro.hpp"
 
-class Livro{
-    private:
-        std::string nome;
-        int quantidade;
+Livro::Livro(){}
 
-    public:
+Livro::Livro(std::string nome, int quantidade){
+    this->nome = nome;
+    this->quantidade = quantidade;
+}
 
-        Livro(){}
+std::string Livro::getNome(){
+    return this-> nome;
+}
 
-        Livro(std::string nome, int quantidade){
-            this->nome = nome;
-            this->quantidade = quantidade;
-        }
-
-        std::string getNome(){
-            return this-> nome;
-        }
-
-        int getQuantidade(){
-            return this->quantidade;
-        }
-
-        bool operator==(Livro l) const {
-            return this->nome == l.nome;
-        }
-};
+int Livro::getQuantidade(){
+    return this->quantidade;
+}

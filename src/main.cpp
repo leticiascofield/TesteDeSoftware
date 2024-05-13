@@ -1,9 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Biblioteca.cpp"
-
-
+#include "Biblioteca.hpp"
+#include "Livro.hpp"
 
 int main (){
     std::vector<Livro> livros;
