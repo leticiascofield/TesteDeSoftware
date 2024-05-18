@@ -2,6 +2,8 @@
 #define LIVRO_H
 
 #include <string>
+#include <iomanip>
+#include <sstream>
 
 class Livro{
     private:
@@ -15,6 +17,7 @@ class Livro{
         int getQuantidade() const;
         bool operator==(const Livro& l) const;
         bool operator<(const Livro& l) const;
+
 };
 
 #endif

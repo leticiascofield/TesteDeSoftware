@@ -1,27 +1,53 @@
 #include "Biblioteca.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 Biblioteca::Biblioteca() {
     setUpBiblioteca();
 }
 
 void Biblioteca::setUpBiblioteca() {
-    Livro livro1("Dracula", 3);
-    livros.insert(livro1);
-    Livro livro2("Jane Eyre", 2);
-    livros.insert(livro2);
-    Livro livro3("O Conde de Monte Cristo", 3);
-    livros.insert(livro3);
+    carregarLivros();
+}
+
+void Biblioteca::carregarLivros() {
+    std::ifstream inFile("livros.txt");
+    if (inFile.is_open()) {
+        std::string line;
+        while (std::getline(inFile, line)) {
+            std::istringstream iss(line);
+            std::string nome;
+            int quantidade;
+            if (iss >> std::ws && std::getline(iss, nome, '"') && std::getline(iss, nome, '"') >> quantidade) {
+                Livro livro(nome, quantidade);
+                livros.insert(livro);
+            }
+        }
+        inFile.close();
+    }
+}
+
+void Biblioteca::salvarLivros() const {
+    std::ofstream outFile("livros.txt");
+    if (outFile.is_open()) {
+        for (const auto& livro : livros) {
+            outFile << "\"" << livro.getNome() << "\" " << livro.getQuantidade() << std::endl;
+        }
+        outFile.close();
+    }
 }
 
 void Biblioteca::adicionarLivro(const Livro& l) {
     livros.insert(l);
+    salvarLivros();
 }
 
 void Biblioteca::removerLivro(const Livro& l) {
     auto it = livros.find(l);
     if (it != livros.end()) {
         livros.erase(it);
+        salvarLivros();
     }
 }
 
