@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "Biblioteca.cpp"
+#include "Biblioteca.hpp"
 
 int main (){
     Biblioteca biblioteca;
@@ -33,26 +33,31 @@ int main (){
 
             Livro livro(nome, quantidade);
             biblioteca.adicionarLivro(livro);
+
         } else if (opcao == "remocao") {
             std::cout << "Digite o nome do livro que deseja remover: ";
             std::cin.ignore();
             std::getline(std::cin, nome);
             Livro livro(nome, 0);
             biblioteca.removerLivro(livro);
+
         } else if (opcao == "procura") {
             std::cout << "Digite o nome do livro que deseja procurar: ";
             std::cin.ignore();
             std::getline(std::cin, nome);
             Livro livro(nome, 0);
             bool temLivro = biblioteca.procurarLivro(livro);
+
             if (temLivro) {
                 std::cout << std::endl << "O livro " << livro.getNome() << " está disponível na biblioteca." << std::endl;
             } else {
                 std::cout << std::endl << "O livro " << livro.getNome() << " não está disponível na biblioteca." << std::endl;
             }
+
         } else if (opcao == "lista") {
             std::cout << std::endl;
             biblioteca.imprimirLivros();
+
         } else {
             std::cout << std::endl << "Opção inválida, por favor tente novamente." << std::endl;
         }

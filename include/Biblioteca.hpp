@@ -1,22 +1,23 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include "Livro.hpp"
-
-#ifndef BILBIOTECA_H
+#ifndef BIBLIOTECA_H
 #define BIBLIOTECA_H
+
+#include <set>
+#include "Livro.hpp"
 
 class Biblioteca{
     private:
-        std::vector<Livro> livros;
+        std::set<Livro> livros;
         void setUpBiblioteca();
+        void carregarLivros();
+        void salvarLivros() const;
 
     public:
-        Biblioteca(std::vector<Livro> livros);
-
-        void adicionarLivro(Livro l);
-        void removerLivro(Livro l);
-        bool procurarLivro(Livro l);
+        Biblioteca();
+        void adicionarLivro(const Livro& l);
+        void removerLivro(const Livro& l);
+        bool procurarLivro(const Livro& l) const;
+        void imprimirLivros() const;
+        
 };
 
 #endif

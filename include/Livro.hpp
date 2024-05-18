@@ -1,7 +1,6 @@
 #ifndef LIVRO_H
 #define LIVRO_H
 
-#include <iostream>
 #include <string>
 
 class Livro{
@@ -12,12 +11,10 @@ class Livro{
     public:
         Livro();
         Livro(std::string nome, int quantidade);
-        std::string getNome();
-        int getQuantidade();
-
-        bool operator==(Livro l) const {
-            return this->nome == l.nome;
-        }
+        std::string getNome() const;
+        int getQuantidade() const;
+        bool operator==(const Livro& l) const;
+        bool operator<(const Livro& l) const;
 };
 
 #endif
