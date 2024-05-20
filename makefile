@@ -27,7 +27,10 @@ $(BUILD_DIR)/Biblioteca.o: $(INCLUDE_DIR)/Biblioteca.hpp $(INCLUDE_DIR)/Livro.hp
 $(BUILD_DIR)/Livro.o: $(INCLUDE_DIR)/Livro.hpp
 
 # Phony targets
-.PHONY: clean
+.PHONY: clean run
+
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
 	rm -rf $(BUILD_DIR)/*.o $(TARGET)
