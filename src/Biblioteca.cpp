@@ -39,7 +39,14 @@ void Biblioteca::salvarLivros() const {
 }
 
 void Biblioteca::adicionarLivro(const Livro& l) {
-    livros.insert(l);
+    auto it = livros.find(l);
+    if (it != livros.end()) {
+        Livro livroAtualizado(l.getNome(), it->getQuantidade() + l.getQuantidade());
+        livros.erase(it);
+        livros.insert(livroAtualizado);
+    } else {
+        livros.insert(l);
+    }
     salvarLivros();
 }
 
