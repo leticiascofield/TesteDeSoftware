@@ -4,7 +4,6 @@
 
 int main (){
     Biblioteca biblioteca;
-
     std::string opcao;
 
     while (true) {
@@ -38,7 +37,10 @@ int main (){
             std::cout << "Digite o nome do livro que deseja remover: ";
             std::cin.ignore();
             std::getline(std::cin, nome);
-            Livro livro(nome, 0);
+            std::cout << "Quantidade: ";
+            std::cin >> quantidade;
+
+            Livro livro(nome, quantidade);
             biblioteca.removerLivro(livro);
 
         } else if (opcao == "procura") {

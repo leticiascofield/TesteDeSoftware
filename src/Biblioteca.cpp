@@ -44,11 +44,22 @@ void Biblioteca::adicionarLivro(const Livro& l) {
 }
 
 void Biblioteca::removerLivro(const Livro& l) {
-    auto it = livros.find(l);
-    if (it != livros.end()) {
-        livros.erase(it);
-        salvarLivros();
+    for (auto it = livros.begin(); it != livros.end(); ++it) {
+        if (it->getNome() == l.getNome()) {
+            if (it->getQuantidade() < l.getQuantidade()) {
+                std::cout << "Erro: Quantidade de livros a remover maior do que a existente no estoque." << std::endl;
+            } else if (it->getQuantidade() > l.getQuantidade()) {
+                Livro livroAtualizado(l.getNome(), it->getQuantidade() - l.getQuantidade());
+                livros.erase(it);
+                livros.insert(livroAtualizado);
+            } else {
+                livros.erase(it);
+            }
+            salvarLivros();
+            return;
+        }
     }
+    std::cout << "Erro: Livro não encontrado no estoque." << std::endl;
 }
 
 bool Biblioteca::procurarLivro(const Livro& l) const {
