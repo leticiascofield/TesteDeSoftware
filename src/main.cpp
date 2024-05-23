@@ -32,6 +32,7 @@ int main (){
 
             Livro livro(nome, quantidade);
             biblioteca.adicionarLivro(livro);
+            biblioteca.salvarLivros();
 
         } else if (opcao == "remocao") {
             std::cout << "Digite o nome do livro que deseja remover: ";
@@ -42,6 +43,7 @@ int main (){
 
             Livro livro(nome, quantidade);
             biblioteca.removerLivro(livro);
+            biblioteca.salvarLivros();
 
         } else if (opcao == "procura") {
             std::cout << "Digite o nome do livro que deseja procurar: ";

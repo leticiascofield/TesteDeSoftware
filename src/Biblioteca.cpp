@@ -47,7 +47,6 @@ void Biblioteca::adicionarLivro(const Livro& l) {
     } else {
         this->livros.insert(l);
     }
-    salvarLivros();
 }
 
 void Biblioteca::removerLivro(const Livro& l) {
@@ -62,7 +61,6 @@ void Biblioteca::removerLivro(const Livro& l) {
             } else {
                 this->livros.erase(it);
             }
-            salvarLivros();
             return;
         }
     }
