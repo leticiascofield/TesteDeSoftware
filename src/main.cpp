@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Biblioteca.hpp"
+#include "Usuario.hpp"
 
 int main (){
     Biblioteca biblioteca;

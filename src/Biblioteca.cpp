@@ -4,10 +4,6 @@
 #include <sstream>
 
 Biblioteca::Biblioteca() {
-    setUpBiblioteca();
-}
-
-void Biblioteca::setUpBiblioteca() {
     carregarLivros();
 }
 
@@ -49,7 +45,7 @@ void Biblioteca::adicionarLivro(const Livro& l) {
         Livro livroAtualizado(l.getNome(), it->getQuantidade() + l.getQuantidade());
         this->livros.erase(it);
         this->livros.insert(livroAtualizado);
-    } else {
+    } else if (l.getQuantidade() != 0) {
         this->livros.insert(l);
     }
 }
