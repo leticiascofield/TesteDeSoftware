@@ -1,36 +1,51 @@
-# Compiler
+# Variables
 CXX = g++
+CXXFLAGS = -Iinclude -Wall -Wextra -std=c++17
+LDFLAGS =
 
 # Directories
 SRC_DIR = src
-INCLUDE_DIR = include
 BUILD_DIR = build
+INCLUDE_DIR = include
 
-# Files
+# Source Files
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
+SRC_FILES_NO_TESTS = $(filter-out $(SRC_DIR)/tests.cpp, $(SRC_FILES))
+SRC_FILES_ONLY_TESTS = $(filter-out $(SRC_DIR)/main.cpp, $(SRC_FILES))
 
-# Flags
-CXXFLAGS = -std=c++11 -Wall -I$(INCLUDE_DIR)
+# Object Files
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRC_FILES))
+OBJ_FILES_NO_TESTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRC_FILES_NO_TESTS))
+OBJ_FILES_ONLY_TESTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRC_FILES_ONLY_TESTS))
 
 # Targets
-TARGET = main
+TARGET_RUN = main
+TARGET_TEST = tests
 
-$(TARGET): $(OBJ_FILES)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+# Default Target
+all: $(TARGET_RUN) $(TARGET_TEST)
 
+# Run Target
+run: $(TARGET_RUN)
+	@./$(TARGET_RUN)
+
+$(TARGET_RUN): $(OBJ_FILES_NO_TESTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+
+# Test Target
+test: $(TARGET_TEST)
+	@./$(TARGET_TEST)
+
+$(TARGET_TEST): $(OBJ_FILES_ONLY_TESTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+
+# Build Object Files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Dependencies
-$(BUILD_DIR)/Biblioteca.o: $(INCLUDE_DIR)/Biblioteca.hpp $(INCLUDE_DIR)/Livro.hpp
-$(BUILD_DIR)/Livro.o: $(INCLUDE_DIR)/Livro.hpp
-
-# Phony targets
-.PHONY: clean run
-
-run: $(TARGET)
-	./$(TARGET)
-
+# Clean Target
 clean:
-	rm -rf $(BUILD_DIR)/*.o $(TARGET)
+	$(RM) $(BUILD_DIR)/*.o $(TARGET_RUN) $(TARGET_TEST)
+
+.PHONY: all run test clean
