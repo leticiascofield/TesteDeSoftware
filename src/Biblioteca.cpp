@@ -21,7 +21,7 @@ void Biblioteca::carregarLivros() {
             int quantidade;
             if (iss >> std::ws && std::getline(iss, nome, '"') && std::getline(iss, nome, '"') >> quantidade) {
                 Livro livro(nome, quantidade);
-                livros.insert(livro);
+                this->livros.insert(livro);
             }
         }
         inFile.close();
@@ -31,7 +31,7 @@ void Biblioteca::carregarLivros() {
 void Biblioteca::salvarLivros() const {
     std::ofstream outFile("livros.txt");
     if (outFile.is_open()) {
-        for (const auto& livro : livros) {
+        for (const auto& livro : this->livros) {
             outFile << "\"" << livro.getNome() << "\" " << livro.getQuantidade() << std::endl;
         }
         outFile.close();
@@ -39,28 +39,28 @@ void Biblioteca::salvarLivros() const {
 }
 
 void Biblioteca::adicionarLivro(const Livro& l) {
-    auto it = livros.find(l);
-    if (it != livros.end()) {
+    auto it = this->livros.find(l);
+    if (it != this->livros.end()) {
         Livro livroAtualizado(l.getNome(), it->getQuantidade() + l.getQuantidade());
-        livros.erase(it);
-        livros.insert(livroAtualizado);
+        this->livros.erase(it);
+        this->livros.insert(livroAtualizado);
     } else {
-        livros.insert(l);
+        this->livros.insert(l);
     }
     salvarLivros();
 }
 
 void Biblioteca::removerLivro(const Livro& l) {
-    for (auto it = livros.begin(); it != livros.end(); ++it) {
+    for (auto it = this->livros.begin(); it != this->livros.end(); ++it) {
         if (it->getNome() == l.getNome()) {
             if (it->getQuantidade() < l.getQuantidade()) {
                 std::cout << "Erro: Quantidade de livros a remover maior do que a existente no estoque." << std::endl;
             } else if (it->getQuantidade() > l.getQuantidade()) {
                 Livro livroAtualizado(l.getNome(), it->getQuantidade() - l.getQuantidade());
-                livros.erase(it);
-                livros.insert(livroAtualizado);
+                this->livros.erase(it);
+                this->livros.insert(livroAtualizado);
             } else {
-                livros.erase(it);
+                this->livros.erase(it);
             }
             salvarLivros();
             return;
@@ -70,12 +70,12 @@ void Biblioteca::removerLivro(const Livro& l) {
 }
 
 bool Biblioteca::procurarLivro(const Livro& l) const {
-    auto it = livros.find(l);
-    return it != livros.end();
+    auto it = this->livros.find(l);
+    return it != this->livros.end();
 }
 
 void Biblioteca::imprimirLivros() const {
-    for (const auto& livro : livros) {
+    for (const auto& livro : this->livros) {
         std::cout << livro.getNome() << " - Quantidade: " << livro.getQuantidade() << std::endl;
     }
 }
