@@ -1,13 +1,24 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include "Biblioteca.hpp"
 #include "Usuario.hpp"
+
+void limparTela() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
 
 int main (){
     Biblioteca biblioteca;
     std::string opcao;
 
     while (true) {
+        limparTela();
+
         std::cout << "O que deseja?" << std::endl;
         std::cout << "Para adicionar um livro, digite: adicao" << std::endl;
         std::cout << "Para remover um livro, digite: remocao" << std::endl;
@@ -21,6 +32,7 @@ int main (){
             break;
         }
 
+        limparTela();
         std::string nome;
         int quantidade;
 
@@ -30,6 +42,7 @@ int main (){
             std::getline(std::cin, nome);
             std::cout << "Quantidade: ";
             std::cin >> quantidade;
+            std::cin.ignore();
 
             Livro livro(nome, quantidade);
             biblioteca.adicionarLivro(livro);
@@ -41,6 +54,7 @@ int main (){
             std::getline(std::cin, nome);
             std::cout << "Quantidade: ";
             std::cin >> quantidade;
+            std::cin.ignore();
 
             Livro livro(nome, quantidade);
             biblioteca.removerLivro(livro);
@@ -62,11 +76,14 @@ int main (){
         } else if (opcao == "lista") {
             std::cout << std::endl;
             biblioteca.imprimirLivros();
+            std::cin.ignore();
 
         } else {
             std::cout << std::endl << "Opção inválida, por favor tente novamente." << std::endl;
+            std::cin.ignore();
         }
-        std::cout << std::endl;
+
+        std::cin.get();
     }
 
     return 0;

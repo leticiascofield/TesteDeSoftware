@@ -48,6 +48,8 @@ void Biblioteca::adicionarLivro(const Livro& l) {
     } else if (l.getQuantidade() != 0) {
         this->livros.insert(l);
     }
+
+    std::cout << std::endl << "Livro adicionado com sucesso!" << std::endl;
 }
 
 void Biblioteca::removerLivro(const Livro& l) {
@@ -70,6 +72,7 @@ void Biblioteca::removerLivro(const Livro& l) {
             } else {
                 this->livros.erase(it);
             }
+            std::cout << std::endl << "Livro removido com sucesso!" << std::endl;
             return;
         }
     }
