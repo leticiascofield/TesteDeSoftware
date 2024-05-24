@@ -10,11 +10,13 @@ private:
     std::string cargo;
 
 public:
-    Usuario(const std::string& login, const std::string& senha, const std::string& cargo);
+    Usuario(const std::string& login, const std::string& senha);
 
     std::string getLogin() const;
     std::string getSenha() const;
     std::string getCargo() const;
+    bool operator==(const Usuario& u) const;
+    bool operator<(const Usuario& u) const;
 
 };
 

@@ -34,6 +34,8 @@ void Biblioteca::salvarLivros() const {
     }
 }
 
+void Biblioteca::salvarUsuarios() const{ }
+
 void Biblioteca::adicionarLivro(const Livro& l) {
     if (l.getQuantidade() < 0) {
         std::cout << "Erro: Quantidade de livros a adicionar não pode ser negativa." << std::endl;
@@ -88,5 +90,16 @@ bool Biblioteca::procurarLivro(const Livro& l) const {
 void Biblioteca::imprimirLivros() const {
     for (const auto& livro : this->livros) {
         std::cout << livro.getNome() << " - Quantidade: " << livro.getQuantidade() << std::endl;
+    }
+}
+
+void Biblioteca::adicionarUsuario(const Usuario& u){
+    auto it = this->usuarios.find(u);
+
+    if (it != this->usuarios.end()) {
+        std::cout << std::endl << "Erro: Login desejado já existente, escolha outro." << std::endl;
+    } else {
+        this->usuarios.insert(u);
+        std::cout << std::endl << "Conta criada com sucesso! Faça login para continuar." << std::endl;
     }
 }
