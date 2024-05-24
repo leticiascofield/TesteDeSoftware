@@ -5,6 +5,7 @@
 
 Biblioteca::Biblioteca() {
     carregarLivros();
+    carregarUsuarios();
 }
 
 void Biblioteca::carregarLivros() {
@@ -24,6 +25,22 @@ void Biblioteca::carregarLivros() {
     }
 }
 
+void Biblioteca::carregarUsuarios() {
+    std::ifstream inFile("usuarios.txt");
+    if (inFile.is_open()) {
+        std::string line;
+        while (std::getline(inFile, line)) {
+            std::istringstream iss(line);
+            std::string login, senha, cargo;
+            if (iss >> login >> senha >> cargo) {
+                Usuario usuario(login, senha, cargo);
+                this->usuarios.insert(usuario);
+            }
+        }
+        inFile.close();
+    }
+ }
+
 void Biblioteca::salvarLivros() const {
     std::ofstream outFile("livros.txt");
     if (outFile.is_open()) {
@@ -34,7 +51,15 @@ void Biblioteca::salvarLivros() const {
     }
 }
 
-void Biblioteca::salvarUsuarios() const{ }
+void Biblioteca::salvarUsuarios() const{ 
+    std::ofstream outFile("usuarios.txt");
+    if (outFile.is_open()) {
+        for (const auto& usuario : this->usuarios) {
+            outFile << usuario.getLogin() << " " << usuario.getSenha() << " " << usuario.getCargo() << std::endl;
+        }
+        outFile.close();
+    }
+}
 
 void Biblioteca::adicionarLivro(const Livro& l) {
     if (l.getQuantidade() < 0) {
@@ -102,4 +127,19 @@ void Biblioteca::adicionarUsuario(const Usuario& u){
         this->usuarios.insert(u);
         std::cout << std::endl << "Conta criada com sucesso! Faça login para continuar." << std::endl;
     }
+}
+
+bool Biblioteca::autenticarUsuario(const Usuario& u){
+    auto it = this->usuarios.find(u);
+    
+    if (it == this->usuarios.end()) {
+        std::cout << std::endl << "Erro: Esse login não existe." << std::endl;
+    } else {
+        if (it->getSenha() == u.getSenha()) {
+            return true;
+        } else {
+            std::cout << std::endl << "Erro: Senha incorreta." << std::endl;
+        }
+    }
+    return false;
 }

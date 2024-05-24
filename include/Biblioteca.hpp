@@ -24,7 +24,7 @@ class Biblioteca{
 
         void adicionarUsuario(const Usuario& u);
         void removerUsuario(const Usuario& u);
-        bool autenticarUsuario(const std::string& login, const std::string& senha) const;
+        bool autenticarUsuario(const Usuario& u);
         
 };
 

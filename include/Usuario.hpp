@@ -11,6 +11,7 @@ private:
 
 public:
     Usuario(const std::string& login, const std::string& senha);
+    Usuario(const std::string& login, const std::string& senha, const std::string& cargo);
 
     std::string getLogin() const;
     std::string getSenha() const;

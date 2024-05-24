@@ -6,6 +6,12 @@ Usuario::Usuario(const std::string& login, const std::string& senha) {
     this->cargo = "cliente";
 }
 
+Usuario::Usuario(const std::string& login, const std::string& senha, const std::string& cargo) {
+    this->login = login;
+    this->senha = senha;
+    this->cargo = cargo;
+}
+
 std::string Usuario::getLogin() const {
     return this->login;
 }

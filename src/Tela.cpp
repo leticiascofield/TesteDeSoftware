@@ -39,26 +39,28 @@ void Tela::telaInicial(Biblioteca& biblioteca) {
             Usuario usuario(login, senha);
 
             // Verificar se o usuário existe e se a senha está correta
-
-            std::cout << std::endl;
-            std::cout << "Login bem-sucedido! Bem-vindo, " << usuario.getLogin() << "!" << std::endl;
-            pausarTela();
-            telaFuncionalidades(biblioteca);
-            break;
+            if(biblioteca.autenticarUsuario(usuario)) {
+                std::cout << std::endl << "Login bem-sucedido! Bem-vindo, " << usuario.getLogin() << "!" << std::endl;
+                pausarTela();
+                telaFuncionalidades(biblioteca);
+                break;
+            } else {
+                pausarTela();
+            }
 
         } else if (opcao == "2") {
             limparTela();
             std::cout << "- Criar Conta -" << std::endl;
-            std::string login, senha, cargo;
+            std::string login, senha;
             std::cout << "Digite seu login desejado: ";
             std::cin >> login;
             std::cout << "Digite sua senha desejada: ";
             std::cin >> senha;
-            std::cout << "Digite seu cargo (cliente ou funcionario): ";
-            std::cin >> cargo;
 
             Usuario novoUsuario(login, senha);
             biblioteca.adicionarUsuario(novoUsuario);
+            biblioteca.salvarUsuarios();
+            pausarTela();
 
         } else if (opcao == "3") {
             limparTela();
@@ -69,8 +71,8 @@ void Tela::telaInicial(Biblioteca& biblioteca) {
         } else {
             limparTela();
             std::cout << "Opção inválida. Tente novamente." << std::endl;
+            pausarTela();
         }
-        pausarTela();
     }
 }
 
@@ -113,6 +115,7 @@ void Tela::telaFuncionalidades(Biblioteca& biblioteca){
             Livro livro(nome, quantidade);
             biblioteca.adicionarLivro(livro);
             biblioteca.salvarLivros();
+            pausarTela();
 
         } else if (opcao == "2") {
             std::cout << "- Remover um livro -" << std::endl;
@@ -125,6 +128,7 @@ void Tela::telaFuncionalidades(Biblioteca& biblioteca){
             Livro livro(nome, quantidade);
             biblioteca.removerLivro(livro);
             biblioteca.salvarLivros();
+            pausarTela();
 
         } else if (opcao == "3") {
             std::cout << "- Buscar um livro -" << std::endl;
@@ -135,21 +139,22 @@ void Tela::telaFuncionalidades(Biblioteca& biblioteca){
             bool temLivro = biblioteca.procurarLivro(livro);
 
             if (temLivro) {
-                std::cout << std::endl << "O livro " << livro.getNome() << " está disponível na biblioteca.";
+                std::cout << std::endl << "O livro " << livro.getNome() << " está disponível na biblioteca." << std::endl;
             } else {
-                std::cout << std::endl << "O livro " << livro.getNome() << " não está disponível na biblioteca.";
+                std::cout << std::endl << "O livro " << livro.getNome() << " não está disponível na biblioteca." << std::endl;
             }
-
+            std::cin.get();
 
         } else if (opcao == "4") {
             std::cout << "- Exibir todos os livros -" << std::endl;
             std::cout << std::endl;
             biblioteca.imprimirLivros();
+            pausarTela();
 
         } else {
             std::cout << std::endl << "Opção inválida, por favor tente novamente." << std::endl;
+            pausarTela();
         }
 
-        pausarTela();
     }
 }
