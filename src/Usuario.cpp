@@ -1,9 +1,13 @@
 #include "Usuario.hpp"
+#include "Utils.hpp"
 
 Usuario::Usuario(const std::string& login, const std::string& senha) {
     this->login = login;
     this->senha = senha;
     this->cargo = "cliente";
+    this->livroEmprestado = "";
+    this->dataEmprestimo = stringToTimePoint("2000-01-01");
+    this->multa = 0;
 }
 
 Usuario::Usuario(const std::string& login, const std::string& senha, const std::string& cargo) {
@@ -11,7 +15,7 @@ Usuario::Usuario(const std::string& login, const std::string& senha, const std::
     this->senha = senha;
     this->cargo = cargo;
     this->livroEmprestado = "";
-    this->dataEmprestimo = std::chrono::system_clock::now();
+    this->dataEmprestimo = stringToTimePoint("2000-01-01");
     this->multa = 0;
 }
 
@@ -44,6 +48,10 @@ std::string Usuario::getLivroEmprestado() const {
 
 std::chrono::system_clock::time_point Usuario::getDataEmprestimo() const {
     return this->dataEmprestimo;
+}
+
+std::string Usuario::getDataEmprestimoStr() const {
+    return timePointToString(this->dataEmprestimo);
 }
 
 int Usuario::getMulta() const {

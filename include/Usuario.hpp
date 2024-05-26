@@ -27,7 +27,9 @@ public:
 
     std::string getLivroEmprestado() const;
     std::chrono::system_clock::time_point getDataEmprestimo() const;
+    std::string getDataEmprestimoStr() const;
     int getMulta() const;
+
     bool operator==(const Usuario& u) const;
     bool operator<(const Usuario& u) const;
 

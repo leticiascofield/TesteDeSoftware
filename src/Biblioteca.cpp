@@ -1,4 +1,5 @@
 #include "Biblioteca.hpp"
+#include "Utils.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -28,14 +29,18 @@ void Biblioteca::carregarLivros() {
 void Biblioteca::carregarUsuarios() {
     std::ifstream inFile("usuarios.txt");
     if (inFile.is_open()) {
-        std::string line;
-        while (std::getline(inFile, line)) {
-            std::istringstream iss(line);
-            std::string login, senha, cargo;
-            if (iss >> login >> senha >> cargo) {
-                Usuario usuario(login, senha, cargo);
-                this->usuarios.insert(usuario);
-            }
+        std::string linha;
+        while (std::getline(inFile, linha)) {
+            std::istringstream iss(linha);
+            std::string login, senha, cargo, livroEmprestado, dataEmprestimoStr;
+            int multa;
+            // Leitura dos dados do arquivo
+            iss >> login >> senha >> cargo >> std::quoted(livroEmprestado) >> dataEmprestimoStr >> multa;
+            // Converte a string de data para um time_point
+            auto dataEmprestimo = stringToTimePoint(dataEmprestimoStr);
+            // Cria o objeto Usuario e o insere no conjunto
+            Usuario usuario(login, senha, cargo, livroEmprestado, dataEmprestimo, multa);
+            usuarios.insert(usuario);
         }
         inFile.close();
     }
@@ -54,8 +59,13 @@ void Biblioteca::salvarLivros() const {
 void Biblioteca::salvarUsuarios() const{ 
     std::ofstream outFile("usuarios.txt");
     if (outFile.is_open()) {
-        for (const auto& usuario : this->usuarios) {
-            outFile << usuario.getLogin() << " " << usuario.getSenha() << " " << usuario.getCargo() << std::endl;
+        for (const auto& usuario : usuarios) {
+            outFile << usuario.getLogin() << " "
+                    << usuario.getSenha() << " "
+                    << usuario.getCargo() << " "
+                    << std::quoted(usuario.getLivroEmprestado()) << " "
+                    << timePointToString(usuario.getDataEmprestimo()) << " "
+                    << usuario.getMulta() << "\n";
         }
         outFile.close();
     }
