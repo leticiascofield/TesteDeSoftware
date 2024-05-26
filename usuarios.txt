@@ -1,5 +1,6 @@
+anacosta senha123 cliente
 aninha 1234 cliente
 joao123 jojoao cliente
-login1 senhadificil funcionario
-anacosta senha123 cliente
 josejoia joiajose funcionario
+jotinha jotinha123 cliente
+login1 senhadificil funcionario

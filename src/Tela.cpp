@@ -40,7 +40,6 @@ void Tela::telaInicial(Biblioteca& biblioteca) {
 
             // Verificar se o usuário existe e se a senha está correta
             if(biblioteca.autenticarUsuario(usuario)) {
-                std::cout << std::endl << "Login bem-sucedido! Bem-vindo, " << usuario.getLogin() << "!" << std::endl;
                 pausarTela();
                 telaFuncionalidades(biblioteca);
                 break;
@@ -135,7 +134,7 @@ void Tela::telaFuncionalidades(Biblioteca& biblioteca){
             std::cout << "Digite o nome do livro que deseja buscar: ";
             std::cin.ignore();
             std::getline(std::cin, nome);
-            Livro livro(nome, 0);
+            Livro livro(nome, 0, 0);
             bool temLivro = biblioteca.procurarLivro(livro);
 
             if (temLivro) {
@@ -148,7 +147,7 @@ void Tela::telaFuncionalidades(Biblioteca& biblioteca){
         } else if (opcao == "4") {
             std::cout << "- Exibir todos os livros -" << std::endl;
             std::cout << std::endl;
-            biblioteca.imprimirLivros();
+            biblioteca.imprimirLivrosCliente();
             pausarTela();
 
         } else {

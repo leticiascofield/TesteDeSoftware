@@ -20,7 +20,9 @@ class Biblioteca{
         void adicionarLivro(const Livro& l);
         void removerLivro(const Livro& l);
         bool procurarLivro(const Livro& l) const;
-        void imprimirLivros() const;
+        void imprimirLivrosFuncionario() const;
+
+        void imprimirLivrosCliente() const;
 
         void adicionarUsuario(const Usuario& u);
         void removerUsuario(const Usuario& u);

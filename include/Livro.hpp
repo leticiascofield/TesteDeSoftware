@@ -9,12 +9,14 @@ class Livro{
     private:
         std::string nome;
         int quantidade;
+        int quantidadeDisponivel;
 
     public:
-        Livro();
-        Livro(std::string nome, int quantidade);
+    Livro(std::string nome, int quantidade);
+        Livro(std::string nome, int quantidade, int quantidadeDisponivel);
         std::string getNome() const;
         int getQuantidade() const;
+        int getQuantidadeDisponivel() const;
         bool operator==(const Livro& l) const;
         bool operator<(const Livro& l) const;
 

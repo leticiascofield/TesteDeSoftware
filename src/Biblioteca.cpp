@@ -15,9 +15,9 @@ void Biblioteca::carregarLivros() {
         while (std::getline(inFile, line)) {
             std::istringstream iss(line);
             std::string nome;
-            int quantidade;
-            if (iss >> std::ws && std::getline(iss, nome, '"') && std::getline(iss, nome, '"') >> quantidade) {
-                Livro livro(nome, quantidade);
+            int quantidade, quantidadeDisponivel;
+            if (iss >> std::ws && std::getline(iss, nome, '"') && std::getline(iss, nome, '"') >> quantidade >> quantidadeDisponivel) {
+                Livro livro(nome, quantidade, quantidadeDisponivel);
                 this->livros.insert(livro);
             }
         }
@@ -39,13 +39,13 @@ void Biblioteca::carregarUsuarios() {
         }
         inFile.close();
     }
- }
+}
 
 void Biblioteca::salvarLivros() const {
     std::ofstream outFile("livros.txt");
     if (outFile.is_open()) {
         for (const auto& livro : this->livros) {
-            outFile << "\"" << livro.getNome() << "\" " << livro.getQuantidade() << std::endl;
+            outFile << "\"" << livro.getNome() << "\" " << livro.getQuantidade() << " " << livro.getQuantidadeDisponivel() << std::endl;
         }
         outFile.close();
     }
@@ -69,7 +69,7 @@ void Biblioteca::adicionarLivro(const Livro& l) {
 
     auto it = this->livros.find(l);
     if (it != this->livros.end()) {
-        Livro livroAtualizado(l.getNome(), it->getQuantidade() + l.getQuantidade());
+        Livro livroAtualizado(l.getNome(), it->getQuantidade() + l.getQuantidade(), it->getQuantidade() + l.getQuantidade());
         this->livros.erase(it);
         this->livros.insert(livroAtualizado);
     } else if (l.getQuantidade() != 0) {
@@ -93,7 +93,7 @@ void Biblioteca::removerLivro(const Livro& l) {
             } 
             
             if (it->getQuantidade() > l.getQuantidade()) {
-                Livro livroAtualizado(l.getNome(), it->getQuantidade() - l.getQuantidade());
+                Livro livroAtualizado(l.getNome(), it->getQuantidade() - l.getQuantidade(), it->getQuantidade() - l.getQuantidade());
                 this->livros.erase(it);
                 this->livros.insert(livroAtualizado);
             } else {
@@ -112,9 +112,20 @@ bool Biblioteca::procurarLivro(const Livro& l) const {
     return it != this->livros.end();
 }
 
-void Biblioteca::imprimirLivros() const {
+void Biblioteca::imprimirLivrosFuncionario() const {
     for (const auto& livro : this->livros) {
         std::cout << livro.getNome() << " - Quantidade: " << livro.getQuantidade() << std::endl;
+    }
+}
+
+void Biblioteca::imprimirLivrosCliente() const {
+    for (const auto& livro : this->livros) {
+        std::cout << livro.getNome();
+        if(livro.getQuantidadeDisponivel() > 0) {
+            std::cout << " - Disponível" << std::endl;
+        } else {
+            std::cout << " - Indisponível" << std::endl;
+        }
     }
 }
 
@@ -131,11 +142,12 @@ void Biblioteca::adicionarUsuario(const Usuario& u){
 
 bool Biblioteca::autenticarUsuario(const Usuario& u){
     auto it = this->usuarios.find(u);
-    
+
     if (it == this->usuarios.end()) {
         std::cout << std::endl << "Erro: Esse login não existe." << std::endl;
     } else {
         if (it->getSenha() == u.getSenha()) {
+            std::cout << std::endl << "Login bem-sucedido! Bem-vindo, " << u.getLogin() << "!" << std::endl;
             return true;
         } else {
             std::cout << std::endl << "Erro: Senha incorreta." << std::endl;
