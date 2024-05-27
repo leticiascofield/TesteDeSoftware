@@ -12,7 +12,8 @@ class Tela{
         void pausarTela();
 
         void telaInicial(Biblioteca& biblioteca);
-        void telaFuncionalidades(Biblioteca& biblioteca);
+        void telaFuncionalidadesFuncionario(Biblioteca& biblioteca);
+        void telaFuncionalidadesCliente(Biblioteca& biblioteca, Usuario& u);
 
 };
 

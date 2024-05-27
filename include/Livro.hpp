@@ -12,11 +12,16 @@ class Livro{
         int quantidadeDisponivel;
 
     public:
-    Livro(std::string nome, int quantidade);
+        Livro(std::string nome, int quantidade);
         Livro(std::string nome, int quantidade, int quantidadeDisponivel);
+
         std::string getNome() const;
         int getQuantidade() const;
         int getQuantidadeDisponivel() const;
+
+        void setQuantidade(int quantidade);
+        void setQuantidadeDisponivel(int quantidadeDisponivel);
+
         bool operator==(const Livro& l) const;
         bool operator<(const Livro& l) const;
 

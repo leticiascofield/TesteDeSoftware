@@ -1,6 +1,15 @@
 #include "Usuario.hpp"
 #include "Utils.hpp"
 
+Usuario::Usuario(){
+    this->login = "";
+    this->senha = "";
+    this->cargo = "cliente";
+    this->livroEmprestado = "";
+    this->dataEmprestimo = stringToTimePoint("2000-01-01");
+    this->multa = 0;
+}
+
 Usuario::Usuario(const std::string& login, const std::string& senha) {
     this->login = login;
     this->senha = senha;
@@ -56,6 +65,18 @@ std::string Usuario::getDataEmprestimoStr() const {
 
 int Usuario::getMulta() const {
     return this->multa;
+}
+
+void Usuario::setLivroEmprestado(const std::string& livroEmprestado) {
+    this->livroEmprestado = livroEmprestado;
+}
+
+void Usuario::setDataEmprestimo(const std::chrono::system_clock::time_point& dataEmprestimo) {
+    this->dataEmprestimo = dataEmprestimo;
+}
+
+void Usuario::setMulta(int multa) {
+    this->multa = multa;
 }
 
 bool Usuario::operator==(const Usuario& u) const {

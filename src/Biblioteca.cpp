@@ -9,6 +9,15 @@ Biblioteca::Biblioteca() {
     carregarUsuarios();
 }
 
+Usuario Biblioteca::getUsuario(const std::string& login) const {
+    for (const auto& usuario : usuarios) {
+        if (usuario.getLogin() == login) {
+            return usuario;
+        }
+    }
+    return Usuario();
+}
+
 void Biblioteca::carregarLivros() {
     std::ifstream inFile("livros.txt");
     if (inFile.is_open()) {
@@ -34,15 +43,18 @@ void Biblioteca::carregarUsuarios() {
             std::istringstream iss(linha);
             std::string login, senha, cargo, livroEmprestado, dataEmprestimoStr;
             int multa;
-            // Leitura dos dados do arquivo
-            iss >> login >> senha >> cargo >> std::quoted(livroEmprestado) >> dataEmprestimoStr >> multa;
-            // Converte a string de data para um time_point
-            auto dataEmprestimo = stringToTimePoint(dataEmprestimoStr);
-            // Cria o objeto Usuario e o insere no conjunto
-            Usuario usuario(login, senha, cargo, livroEmprestado, dataEmprestimo, multa);
-            usuarios.insert(usuario);
+
+            if (iss >> std::quoted(login) >> std::quoted(senha) >> std::quoted(cargo) 
+                    >> std::quoted(livroEmprestado) >> std::quoted(dataEmprestimoStr) >> multa) {
+
+                auto dataEmprestimo = stringToTimePoint(dataEmprestimoStr);
+                Usuario usuario(login, senha, cargo, livroEmprestado, dataEmprestimo, multa);
+                usuarios.insert(usuario);
+            }
         }
         inFile.close();
+    } else {
+        std::cout << "Erro ao abrir o arquivo de usuários." << std::endl;
     }
 }
 
@@ -60,9 +72,9 @@ void Biblioteca::salvarUsuarios() const{
     std::ofstream outFile("usuarios.txt");
     if (outFile.is_open()) {
         for (const auto& usuario : usuarios) {
-            outFile << usuario.getLogin() << " "
-                    << usuario.getSenha() << " "
-                    << usuario.getCargo() << " "
+            outFile << std::quoted(usuario.getLogin()) << " "
+                    << std::quoted(usuario.getSenha()) << " "
+                    << std::quoted(usuario.getCargo()) << " "
                     << std::quoted(usuario.getLivroEmprestado()) << " "
                     << timePointToString(usuario.getDataEmprestimo()) << " "
                     << usuario.getMulta() << "\n";
@@ -138,6 +150,31 @@ void Biblioteca::imprimirLivrosCliente() const {
         }
     }
 }
+
+void Biblioteca::pegarLivroEmprestado(Usuario& u, Livro& l) {
+    auto it = this->livros.find(l);
+    if (it != this->livros.end() && it->getQuantidadeDisponivel() > 0) {
+        Livro livroAtualizado = *it;
+        livroAtualizado.setQuantidadeDisponivel(livroAtualizado.getQuantidadeDisponivel() - 1);
+
+        this->livros.erase(it);
+        this->livros.insert(livroAtualizado);
+
+        u.setLivroEmprestado(livroAtualizado.getNome());
+        u.setDataEmprestimo(std::chrono::system_clock::now());
+
+        auto itUsuario = this->usuarios.find(u);
+        if (itUsuario != this->usuarios.end()) {
+            this->usuarios.erase(itUsuario);
+        }
+        this->usuarios.insert(u);
+
+        std::string dataDevolucao = timePointToString(u.getDataEmprestimo() + std::chrono::hours(24 * 14));
+        std::cout << "Empréstimo feito com sucesso, devolva o livro até o dia " << dataDevolucao  << " para que não haja multas." << std::endl;
+    } else {
+        std::cout << "Erro: Livro não disponível para empréstimo." << std::endl;
+    }
+} 
 
 void Biblioteca::adicionarUsuario(const Usuario& u){
     auto it = this->usuarios.find(u);

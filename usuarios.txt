@@ -1,10 +1,6 @@
-anacosta senha123 cliente "" 2000-01-01 0
-aninha 1234 cliente "" 2000-01-01 0
-joao123 jojoao cliente "" 2000-01-01 0
-josejoia joiajose funcionario "" 2000-01-01 0
-jotinha jotinha123 cliente "" 2000-01-01 0
-lele lelesoueu cliente "" 2000-01-01 0
-let4 1234 cliente "" 2000-01-01 0
-login1 senhadificil funcionario "" 2000-01-01 0
-lorenzo soulindo cliente "" 2000-01-01 0
-marcela12 1234 cliente "" 2000-01-01 0
+"anacosta" "senha123" "cliente" "Dracula" "2024-05-27" 0
+"aninha" "1234" "cliente" "Anne" "2024-05-27" 0
+"joao123" "jojoao" "cliente" "" "2000-01-01" 0
+"josejoia" "joiajose" "funcionario" "" "2000-01-01" 0
+"let4" "1234" "cliente" "" "2000-01-01" 0
+"login1" "senhadificil" "funcionario" "" "2000-01-01" 0

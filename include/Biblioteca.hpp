@@ -14,6 +14,8 @@ class Biblioteca{
 
     public:
         Biblioteca();
+
+        Usuario getUsuario(const std::string& login) const;
         void salvarLivros() const;
         void salvarUsuarios() const;
 
@@ -23,6 +25,7 @@ class Biblioteca{
         void imprimirLivrosFuncionario() const;
 
         void imprimirLivrosCliente() const;
+        void pegarLivroEmprestado(Usuario& u, Livro& l);
 
         void adicionarUsuario(const Usuario& u);
         void removerUsuario(const Usuario& u);

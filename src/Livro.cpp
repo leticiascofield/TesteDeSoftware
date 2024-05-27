@@ -24,6 +24,14 @@ int Livro::getQuantidadeDisponivel() const {
     return this->quantidadeDisponivel;
 }
 
+void Livro::setQuantidade(int quantidade) {
+    this->quantidade = quantidade;
+}
+
+void Livro::setQuantidadeDisponivel(int quantidadeDisponivel) {
+    this->quantidadeDisponivel = quantidadeDisponivel;
+}
+
 bool Livro::operator==(const Livro& l) const {
     return this->nome == l.nome;
 }
