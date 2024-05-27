@@ -176,6 +176,35 @@ void Biblioteca::pegarLivroEmprestado(Usuario& u, Livro& l) {
     }
 } 
 
+void Biblioteca::devolverLivroEmprestado(Usuario& u){
+    std::string livroEmprestado = u.getLivroEmprestado();
+
+    auto it = this->usuarios.find(u);
+    if (it != this->usuarios.end()) {
+        this->usuarios.erase(it);
+    } else {
+        std::cout << "Erro: Usuário não encontrado na lista de usuários." << std::endl;
+        return;
+    }
+
+    u.setLivroEmprestado("");
+    u.setDataEmprestimo(stringToTimePoint("2000-01-01")); 
+    u.setMulta(0);
+
+    this->usuarios.insert(u);
+
+    auto itLivro = this->livros.find(Livro(livroEmprestado, 0, 0));
+    if (itLivro != this->livros.end()) {
+        Livro livroAtualizado = *itLivro;
+        livroAtualizado.setQuantidadeDisponivel(livroAtualizado.getQuantidadeDisponivel() + 1);
+        this->livros.erase(itLivro);
+        this->livros.insert(livroAtualizado);
+        std::cout << std::endl << "Livro '" << livroEmprestado << "' devolvido com sucesso!" << std::endl;
+    } else {
+        std::cout << std::endl << "Erro: Livro '" << livroEmprestado << "' não encontrado na biblioteca." << std::endl;
+    }
+}
+
 void Biblioteca::adicionarUsuario(const Usuario& u){
     auto it = this->usuarios.find(u);
 

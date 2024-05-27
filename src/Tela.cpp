@@ -1,4 +1,5 @@
 #include "Tela.hpp"
+#include "Utils.hpp"
 
 void Tela::limparTela() {
     #ifdef _WIN32
@@ -142,9 +143,9 @@ void Tela::telaFuncionalidadesFuncionario(Biblioteca& biblioteca){
             bool temLivro = biblioteca.procurarLivro(livro);
 
             if (temLivro) {
-                std::cout << std::endl << "O livro " << livro.getNome() << " está disponível na biblioteca." << std::endl;
+                std::cout << std::endl << "O livro " << livro.getNome() << " foi encontrado na biblioteca." << std::endl;
             } else {
-                std::cout << std::endl << "O livro " << livro.getNome() << " não está disponível na biblioteca." << std::endl;
+                std::cout << std::endl << "O livro " << livro.getNome() << " não foi encontrado na biblioteca." << std::endl;
             }
             std::cin.get();
 
@@ -174,13 +175,14 @@ void Tela::telaFuncionalidadesCliente(Biblioteca& biblioteca, Usuario& u){
 
         std::cout << "1. Informações sobre meu empréstimo" << std::endl;
         std::cout << "2. Fazer empréstimo de um livro" << std::endl;
-        std::cout << "3. Buscar um livro" << std::endl;
-        std::cout << "4. Exibir todos os livros" << std::endl;
-        std::cout << "5. Sair" << std::endl << std::endl;
+        std::cout << "3. Devolver livro" << std::endl;
+        std::cout << "4. Buscar um livro" << std::endl;
+        std::cout << "5. Exibir todos os livros" << std::endl;
+        std::cout << "6. Sair" << std::endl << std::endl;
 
         std::cin >> opcao;
 
-        if (opcao == "5") {
+        if (opcao == "6") {
             limparTela();
             std::cout << "Saindo..." << std::endl;
             pausarTela();
@@ -195,9 +197,9 @@ void Tela::telaFuncionalidadesCliente(Biblioteca& biblioteca, Usuario& u){
             std::cout << std::endl;
 
             if (u.getLivroEmprestado() != "") {
-                std::cout << "Livro Emprestado: " << u.getLivroEmprestado() << std::endl;
+                std::cout << "Livro emprestado: " << u.getLivroEmprestado() << std::endl;
                 std::cout << "Data do empréstimo: " << u.getDataEmprestimoStr() << std::endl;
-                std::cout << "Multa por atraso: " << u.getMulta() << std::endl;
+                std::cout << "Multa por atraso: R$" << u.getMulta() << ",00" << std::endl;
             } else {
                 std::cout << "No momento, não há livro emprestado." << std::endl;
             }
@@ -210,11 +212,16 @@ void Tela::telaFuncionalidadesCliente(Biblioteca& biblioteca, Usuario& u){
                 std::cout << "Qual livro gostaria de fazer um empréstimo? ";
                 std::cin.ignore();
                 std::getline(std::cin, nome);
-                Livro livro(nome, 1);
 
-                biblioteca.pegarLivroEmprestado(u, livro);
-                biblioteca.salvarLivros();
-                biblioteca.salvarUsuarios();
+                Livro livro(nome, 1);
+                if(biblioteca.procurarLivro(livro)){
+                    biblioteca.pegarLivroEmprestado(u, livro);
+                    biblioteca.salvarLivros();
+                    biblioteca.salvarUsuarios();
+                } else {
+                    std::cout << std::endl << "O livro " << livro.getNome() << " não foi encontrado na biblioteca." << std::endl;
+                    pausarTela();
+                }
 
             } else {
                 std::cout << std::endl << "Não é permitido pegar mais de um livro emprestado. Devolva " 
@@ -223,6 +230,39 @@ void Tela::telaFuncionalidadesCliente(Biblioteca& biblioteca, Usuario& u){
             }
 
         } else if (opcao == "3") {
+            std::cout << "- Devolver livro -" << std::endl;
+        
+            if(u.getLivroEmprestado() != ""){
+                std::cout << "Livro emprestado: " << u.getLivroEmprestado() << std::endl;
+                std::cout << "Multa por atraso: R$" << u.getMulta() << ",00" << std::endl << std::endl;
+
+                if(u.getMulta() > 0){
+                    std::cout << "Atenção: lembre-se que a multa aumenta 1 real por dia não pago." << std::endl;
+                    std::cout << "Deseja devolver o livro e pagar a multa?" << std::endl;
+                } else {
+                    std::string dataDevolucao = timePointToString(u.getDataEmprestimo() + std::chrono::hours(24 * 14));
+                    std::cout << "Atenção: lembre-se que você tem até o dia " << dataDevolucao << " para devolver sem que haja multa." << std::endl;
+                    std::cout << "Deseja devolver o livro?" << std::endl;
+                }
+
+                std::cout << "1. Sim" << std::endl;
+                std::cout << "2. Não" << std::endl;
+                std::cin >> opcao;
+
+                if (opcao == "1") {
+                    biblioteca.devolverLivroEmprestado(u);
+                    biblioteca.salvarLivros();
+                    biblioteca.salvarUsuarios();
+                } else {
+                    std::cout << std::endl << "Livro não devolvido." << std::endl;
+                }
+
+            } else {
+                std::cout << "No momento, não há livro emprestado para que se faça a devolução." << std::endl;
+            }
+            pausarTela();
+
+        } else if (opcao == "4") {
             std::cout << "- Buscar um livro -" << std::endl;
             std::cout << "Digite o nome do livro que deseja buscar: ";
             std::cin.ignore();
@@ -231,13 +271,13 @@ void Tela::telaFuncionalidadesCliente(Biblioteca& biblioteca, Usuario& u){
             bool temLivro = biblioteca.procurarLivro(livro);
 
             if (temLivro) {
-                std::cout << std::endl << "O livro " << livro.getNome() << " está disponível na biblioteca." << std::endl;
+                std::cout << std::endl << "O livro " << livro.getNome() << " foi encontrado na biblioteca." << std::endl;
             } else {
-                std::cout << std::endl << "O livro " << livro.getNome() << " não está disponível na biblioteca." << std::endl;
+                std::cout << std::endl << "O livro " << livro.getNome() << " não foi encontrado na biblioteca." << std::endl;
             }
             std::cin.get();
 
-        } else if (opcao == "4") {
+        } else if (opcao == "5") {
             std::cout << "- Exibir todos os livros -" << std::endl;
             std::cout << std::endl;
             biblioteca.imprimirLivrosCliente();

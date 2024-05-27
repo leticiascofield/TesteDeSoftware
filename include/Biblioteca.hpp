@@ -26,6 +26,7 @@ class Biblioteca{
 
         void imprimirLivrosCliente() const;
         void pegarLivroEmprestado(Usuario& u, Livro& l);
+        void devolverLivroEmprestado(Usuario& u);
 
         void adicionarUsuario(const Usuario& u);
         void removerUsuario(const Usuario& u);

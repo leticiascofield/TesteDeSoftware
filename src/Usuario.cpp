@@ -64,7 +64,16 @@ std::string Usuario::getDataEmprestimoStr() const {
 }
 
 int Usuario::getMulta() const {
-    return this->multa;
+    auto dataAtual = std::chrono::system_clock::now();
+    auto diferenca = dataAtual - this->dataEmprestimo;
+    auto diasPassados = std::chrono::duration_cast<std::chrono::hours>(diferenca).count() / 24;
+
+    if (diasPassados > 14) {
+        int diasExcedentes = diasPassados - 14;
+        return diasExcedentes; // 1 real por dia excedente
+    } else {
+        return 0; // Não há multa
+    }
 }
 
 void Usuario::setLivroEmprestado(const std::string& livroEmprestado) {
