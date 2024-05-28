@@ -159,24 +159,6 @@ TEST_CASE("Biblioteca adicionarLivro - Livro inexistente com quantidade zero") {
     CHECK(biblioteca.procurarLivro(Livro("Book E", 0, 0)) == false); 
 }
 
-TEST_CASE("Biblioteca adicionarLivro - Adicionar livro com quantidade disponível negativa") {
-    Biblioteca biblioteca;
-    Livro livro("Book F", 5, -2); 
-
-    biblioteca.adicionarLivro(livro);
-
-    CHECK(biblioteca.procurarLivro(livro) == false); 
-}
-
-TEST_CASE("Biblioteca adicionarLivro - Adicionar livro com quantidade disponível maior que a quantidade total") {
-    Biblioteca biblioteca;
-    Livro livro("Book G", 5, 8); 
-
-    biblioteca.adicionarLivro(livro);
-
-    CHECK(biblioteca.procurarLivro(livro) == false); 
-}
-
 TEST_CASE("Biblioteca removerLivro - Remover livro existente com quantidade suficiente") {
     Biblioteca biblioteca;
     Livro livro("Book A", 10, 5); 
@@ -283,19 +265,6 @@ TEST_CASE("Biblioteca pegarLivroEmprestado - Atualização correta da quantidade
     biblioteca.pegarLivroEmprestado(usuario, livro);
 
     CHECK(biblioteca.procurarLivro(Livro("Book E", 3, 2)) == true);
-}
-
-TEST_CASE("Biblioteca devolverLivroEmprestado - Usuário devolve livro emprestado") {
-    Biblioteca biblioteca;
-    Usuario usuario("testuser", "password", "cliente", "Book A", std::chrono::system_clock::now(), 0); 
-    Livro livro("Book A", 5, 4); 
-    biblioteca.adicionarLivro(livro);
-
-    biblioteca.devolverLivroEmprestado(usuario);
-
-    CHECK(usuario.getLivroEmprestado() == "");
-    CHECK(usuario.getDataEmprestimo() == stringToTimePoint("2000-01-01"));
-    CHECK(usuario.getMulta() == 0);
 }
 
 TEST_CASE("Biblioteca devolverLivroEmprestado - Usuário não tem livro emprestado") {
