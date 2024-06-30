@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: C/C++ CI with Coverage
 
 on:
   push:
@@ -13,7 +13,27 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: make
-      run: make
-    - name: test
-      run: make test
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y gcov lcov
+
+    - name: Build and run tests
+      run: |
+        make
+        make test
+
+    - name: Generate coverage report
+      if: success()
+      run: |
+        lcov --directory . --capture --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info  # Exclude system headers
+        lcov --list coverage.info  # Optional: display coverage summary on console
+
+    - name: Upload coverage report
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-report
+        path: coverage.info
