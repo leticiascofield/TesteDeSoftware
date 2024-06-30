@@ -14,10 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Install LLVM and other dependencies
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y gcov lcov
+        sudo apt-get install -y llvm lcov
 
     - name: Build and run tests
       run: |
@@ -27,13 +27,11 @@ jobs:
     - name: Generate coverage report
       if: success()
       run: |
-        lcov --directory . --capture --output-file coverage.info
-        lcov --remove coverage.info '/usr/*' --output-file coverage.info  # Exclude system headers
-        lcov --list coverage.info  # Optional: display coverage summary on console
+        llvm-cov gcov --directory . --output-dir coverage --format=lcov
 
     - name: Upload coverage report
       if: success()
       uses: actions/upload-artifact@v2
       with:
         name: coverage-report
-        path: coverage.info
+        path: coverage
