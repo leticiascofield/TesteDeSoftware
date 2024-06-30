@@ -27,11 +27,11 @@ jobs:
     - name: Generate coverage report
       if: success()
       run: |
-        llvm-cov gcov --directory . --output-dir coverage --format=lcov
+        llvm-cov show --format=lcov ./tests > coverage.info
 
     - name: Upload coverage report
       if: success()
       uses: actions/upload-artifact@v2
       with:
         name: coverage-report
-        path: coverage
+        path: coverage.info
