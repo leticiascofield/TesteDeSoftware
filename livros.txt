@@ -1,6 +1,1 @@
-"Anne" 4 4
-"Dracula" 3 2
-"Frankenstein" 1 1
-"Jane Eyre" 2 2
-"O Hobbit" 14 13
-"Por Entre Janelas" 2 2
+

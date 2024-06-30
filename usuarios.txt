@@ -1,10 +1,11 @@
-"Oii123" "123" "cliente" "" 2000-01-01 8933
-"anacosta" "senha123" "cliente" "O Hobbit" 2024-06-30 0
-"aninha" "1234" "cliente" "" 2000-01-01 8933
-"joao123" "jojoao" "cliente" "" 2000-01-01 8933
-"josejoia" "joiajose" "funcionario" "" 2000-01-01 8933
-"let4" "1234" "cliente" "Dracula" 2024-05-27 20
-"login1" "senhadificil" "funcionario" "" 2000-01-01 8933
-"newuser" "password123" "cliente" "" 2000-01-01 8933
-"user1" "pass1" "funcionario" "" 2000-01-01 8933
-"user2" "pass2" "cliente" "" 2000-01-01 8933
+"" "" "cliente" "" 2000-01-01 8916
+"Oii123" "123" "cliente" "" 2000-01-01 8916
+"anacosta" "senha123" "cliente" "" 2000-01-01 8916
+"aninha" "1234" "cliente" "" 2000-01-01 8916
+"joao123" "jojoao" "cliente" "" 2000-01-01 8916
+"josejoia" "joiajose" "funcionario" "" 2000-01-01 8916
+"let4" "1234" "cliente" "Dracula" 2024-05-27 3
+"login1" "senhadificil" "funcionario" "" 2000-01-01 8916
+"newuser" "password123" "cliente" "" 2000-01-01 8916
+"user1" "pass1" "funcionario" "" 2000-01-01 8916
+"user2" "pass2" "cliente" "" 2000-01-01 8916
