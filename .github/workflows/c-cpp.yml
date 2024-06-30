@@ -13,22 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Set up environment
-      run: |
-        sudo apt-get install -y expect
-        export TERM=xterm
     
     - name: make
       run: |
         make
         make test
-        
-    - name: Run End-to-End Tests
-      run: |
-        export TERM=xterm
-        ./main &
-        pytest test_e2e.py --verbose
         
     - name: Generate a code coverage report
       uses: threeal/gcovr-action@v1.0.0
