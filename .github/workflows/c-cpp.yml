@@ -21,10 +21,11 @@ jobs:
 
     - name: Build and run tests with coverage instrumentation
       run: |
-        make
-        LLVM_PROFILE_FILE="coverage.profraw" make test
+        make clean  # Optional: Clean previous build artifacts
+        LLVM_PROFILE_FILE="coverage.profraw" make  # Adjust make command as per your project's build system
+        LLVM_PROFILE_FILE="coverage.profraw" make test  # Adjust make test command as per your project's build system
 
-    - name: Convert raw coverage data to lcov format
+    - name: Generate coverage report
       if: success()
       run: |
         llvm-profdata merge -sparse coverage.profraw -o coverage.profdata
