@@ -20,9 +20,6 @@ jobs:
     - name: Generate a code coverage report
       uses: threeal/gcovr-action@v1.0.0
       with:
-        root: build  # Adjust if necessary, root directory for source files
-        gcov-executable: gcov  # Adjust if using GCC, ensure it matches your compiler
-        xml-out: coverage.xml  # Optional: Output XML report
         coveralls-send: true  # Optional: Send to Coveralls if needed
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
