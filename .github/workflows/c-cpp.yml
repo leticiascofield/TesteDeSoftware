@@ -19,15 +19,16 @@ jobs:
         sudo apt-get update -y
         sudo apt-get install -y llvm lcov
 
-    - name: Build and run tests
+    - name: Build and run tests with coverage instrumentation
       run: |
         make
-        make test
+        LLVM_PROFILE_FILE="coverage.profraw" make test
 
-    - name: Generate coverage report
+    - name: Convert raw coverage data to lcov format
       if: success()
       run: |
-        llvm-cov show --format=lcov ./tests > coverage.info
+        llvm-profdata merge -sparse coverage.profraw -o coverage.profdata
+        llvm-cov export -format=lcov -instr-profile=coverage.profdata ./tests > coverage.info
 
     - name: Upload coverage report
       if: success()
