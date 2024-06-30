@@ -23,5 +23,9 @@ jobs:
         xml-out: coverage.xml
         coveralls-send: true  # Optional: Send to Coveralls if needed
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        excludes: |
+          include/doctest.hpp
+          src/tests.cpp
+          src/Tela.cpp
 
 # Add more jobs or steps as necessary for your CI/CD pipeline
