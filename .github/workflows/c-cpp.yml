@@ -20,6 +20,7 @@ jobs:
     - name: Generate a code coverage report
       uses: threeal/gcovr-action@v1.0.0
       with:
+        xml-out: coverage.xml
         coveralls-send: true  # Optional: Send to Coveralls if needed
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
