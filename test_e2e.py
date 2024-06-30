@@ -30,6 +30,24 @@ def concatenate_strings(str_list):
 
 @pytest.mark.parametrize("input_data, expected_interactions", [
     (["3"], ["- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\nSaindo...\n"]),
+    (["1", "usuarioinexistente", "senha123", "", "3", ""], [
+        "- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\n",
+        "- Entrar -\nDigite seu login: ",
+        "Digite sua senha: ",
+        "\nErro: Esse login não existe.\n",
+        "- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\n",
+        "Saindo...\n",
+        ""
+    ]),
+    (["1", "anacosta", "senhaerrada", "", "3", ""], [
+        "- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\n",
+        "- Entrar -\nDigite seu login: ",
+        "Digite sua senha: ",
+        "\nErro: Senha incorreta.\n",
+        "- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\n",
+        "Saindo...\n",
+        ""
+    ]),
     (["1", "anacosta", "senha123", "", "6", "", "3", ""], [
         "- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\n- Entrar -\nDigite seu login: ",
         "Digite sua senha: ",
@@ -40,6 +58,19 @@ def concatenate_strings(str_list):
         "Saindo...\n",
         ""
     ]),
+    (["1", "aninha", "1234", "", "1", "", "6", "", "3", ""], [
+        "- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\n",
+        "- Entrar -\nDigite seu login: ",
+        "Digite sua senha: ",
+        "\nLogin bem-sucedido! Bem-vindo, aninha!\n",
+        "- Tela Funcionalidades -\nEscolha uma opção:\n\n1. Informações sobre meu empréstimo\n2. Fazer empréstimo de um livro\n3. Devolver livro\n4. Buscar um livro\n5. Exibir todos os livros\n6. Sair\n\n",
+        "- Informações sobre meu empréstimo -\n\nNo momento, não há livro emprestado.\n",
+        "- Tela Funcionalidades -\nEscolha uma opção:\n\n1. Informações sobre meu empréstimo\n2. Fazer empréstimo de um livro\n3. Devolver livro\n4. Buscar um livro\n5. Exibir todos os livros\n6. Sair\n\n",
+        "Saindo...\n",
+        "- Tela Inicial -\nEscolha uma opção:\n\n1. Entrar\n2. Criar Conta\n3. Sair\n\n",
+        "Saindo...\n",
+        ""
+    ]), 
 ])
 def test_nested_input_and_assert(input_data, expected_interactions):
     actual_interaction = run_program_with_input(input_data)
