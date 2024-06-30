@@ -24,7 +24,7 @@ jobs:
         coveralls-send: true  # Optional: Send to Coveralls if needed
         github-token: ${{ secrets.GITHUB_TOKEN }}
         excludes: |
-          include/doctest.hpp
+          include/Doctest.hpp
           src/tests.cpp
           src/Tela.cpp
 
