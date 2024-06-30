@@ -1,6 +1,6 @@
 # Variables
 CXX = g++
-CXXFLAGS = -Iinclude -Wall -Wextra -std=c++17 -fprofile-instr-generate -fcoverage-mapping
+CXXFLAGS = -Iinclude -Wall -Wextra -std=c++17
 LDFLAGS =
 
 # Directories
