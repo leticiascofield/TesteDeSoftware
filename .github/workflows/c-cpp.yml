@@ -1,4 +1,4 @@
-name: C/C++ CI with Coverage
+name: C/C++ CI
 
 on:
   push:
@@ -13,27 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Install LLVM and other dependencies
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y llvm lcov
-
-    - name: Build and run tests with coverage instrumentation
-      run: |
-        make clean  # Optional: Clean previous build artifacts
-        LLVM_PROFILE_FILE="coverage.profraw" make  # Adjust make command as per your project's build system
-        LLVM_PROFILE_FILE="coverage.profraw" make test  # Adjust make test command as per your project's build system
-
-    - name: Generate coverage report
-      if: success()
-      run: |
-        llvm-profdata merge -sparse coverage.profraw -o coverage.profdata
-        llvm-cov export -format=lcov -instr-profile=coverage.profdata ./tests > coverage.info
-
-    - name: Upload coverage report
-      if: success()
-      uses: actions/upload-artifact@v2
-      with:
-        name: coverage-report
-        path: coverage.info
+    - name: make
+      run: make
+    - name: test
+      run: make test
