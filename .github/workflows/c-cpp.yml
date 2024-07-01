@@ -14,9 +14,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: make
+    - name: Make
       run: |
         make
+
+    - name: Unit Tests
+      run: |
         make test
         
     - name: Generate a code coverage report
@@ -30,5 +33,3 @@ jobs:
           src/tests.cpp
           src/Tela.cpp
           src/main.cpp
-
-# Add more jobs or steps as necessary for your CI/CD pipeline
