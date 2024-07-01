@@ -1,4 +1,4 @@
-name: C/C++ CI with Coverage
+name: C/C++ CI with Coverage and End-to-End Tests
 
 on:
   push:
@@ -7,29 +7,27 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Make
+    - name: Set up environment
+      run: |
+        sudo apt-get install -y expect
+        export TERM=xterm
+    - name: Build
       run: |
         make
-
-    - name: Unit Tests
-      run: |
         make test
-        
-    - name: Generate a code coverage report
-      uses: threeal/gcovr-action@v1.0.0
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
       with:
-        xml-out: coverage.xml
-        coveralls-send: true  # Optional: Send to Coveralls if needed
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        excludes: |
-          include/Doctest.hpp
-          src/tests.cpp
-          src/Tela.cpp
-          src/main.cpp
+        token: ${{ secrets.bd43dfc1-4d99-4ec0-bba4-c26207bf05c4 }}  # Replace with your Codecov token
+        file: ./coverage.xml  # Path to your coverage report file
+        flags: unittests  # Optional: Specify flags if you have multiple coverage reports
+        name: codecov-merge-coverage  # Optional: Custom name for the upload
+        fail_ci_if_error: true  # Optional: Fail the CI build if uploading fails
+
