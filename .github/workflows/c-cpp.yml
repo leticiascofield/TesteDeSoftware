@@ -13,10 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up environment
-      run: |
-        sudo apt-get install -y expect
-        export TERM=xterm
+
     - name: Build
       run: |
         make
@@ -25,7 +22,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
-        token: ${{ secrets.bd43dfc1-4d99-4ec0-bba4-c26207bf05c4 }}  # Replace with your Codecov token
+        token: ${{ bd43dfc1-4d99-4ec0-bba4-c26207bf05c4 }}  # Replace with your Codecov token
         file: ./coverage.xml  # Path to your coverage report file
         flags: unittests  # Optional: Specify flags if you have multiple coverage reports
         name: codecov-merge-coverage  # Optional: Custom name for the upload
